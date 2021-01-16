@@ -1,0 +1,55 @@
+# Node docker image with Cypress and Chrome pre-installed
+image: cypress/browsers:node12.0.0-chrome73
+
+# Pipeline
+stages:
+  - install
+  - build
+  - test
+
+variables:
+   npm_config_cache: "$CI_PROJECT_DIR/.npm"
+   CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/cache/Cypress"
+
+cache:
+   key:
+     files:
+        - package.json
+   paths:
+      - .npm
+      - cache/Cypress
+      - node_modules
+
+# Jobs 
+
+install_dependencies:
+  stage: install
+  only:
+    - staging
+    - master
+  script:
+    - npm ci
+
+bundle_app:
+  stage: build
+  only:
+    - staging
+    - master
+  artifacts:
+    paths:
+      - build/
+  script:
+    - npm run build
+
+e2etest:    
+    stage: test
+    only:
+    - staging
+    - master
+    before_script:
+      - npm install -g http-server
+      - npm install cypress
+    script:
+       # start the server in the background
+      - npm run start:ci
+
