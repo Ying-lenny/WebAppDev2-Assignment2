@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import Dropdown from 'react-bootstrap/Dropdown'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/Button'
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import { AuthContext } from "../../contexts/authContext";
 import "../../globals/fontawesome";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./siteHeader.css";
@@ -51,6 +53,16 @@ const SiteHeader = () => {
             <Dropdown.Item as={Link} to="/person/newcomers">Up and coming Actors</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
+
+        <Dropdown className="btn-header">
+            <Dropdown.Toggle variant="success" id="dropdown-split-basic3">
+              User Profile
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item as={Link} to="/login">Log-in </Dropdown.Item>
+              <Dropdown.Item as={Link} to="/signup">Register </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </ul>
       </nav>
     </nav>

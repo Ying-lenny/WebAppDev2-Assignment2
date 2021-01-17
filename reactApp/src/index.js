@@ -4,25 +4,6 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Redirect, Switch, Link } from "react-router-dom"    // CHANGED
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
 
-// import HomePage from "./pages/homePage";
-// import MoviePage from './pages/movieDetailsPage';
-// import FavoriteMoviesPage from './pages/favoritesMoviesPage';
-// import WishlistMoviesPage from './pages/wishlistMoviesPage' ;
-// import MovieReviewPage from "./pages/movieReviewPage";
-// import SiteHeader from './components/siteHeader';
-// import UpcomingMoviePage from './pages/upcomingMoviePage';
-// import MoviesContextProvider from "./contexts/moviesContext";
-// import GenresContextProvider from "./contexts/genresContext";
-// import AddMovieReviewPage from './pages/addMovieReviewPage';
-
-// //People Page
-// import PersonPage from './pages/peopleDetailPage';
-// import PeopleContextProvider from "./contexts/peopleContext";
-// import peoplePopularPage from './pages/peoplePopularPage';
-// import InterestPeoplePage from './pages/interestPeoplePage';
-// import peopleLatestPage from './pages/peopleLatestPage';
-// import peopleNewcomersPage from './pages/peopleNewcomersPage';
-
 const HomePage = lazy(() => import("./pages/homePage"));
 const MoviePage = lazy(() => import("./pages/movieDetailsPage"));
 const FavoriteMoviesPage = lazy(() => import("./pages/favoritesMoviesPage"));
@@ -42,6 +23,10 @@ const InterestPeoplePage = lazy(() => import("./pages/interestPeoplePage"));
 const peopleLatestPage = lazy(() => import("./pages/peopleLatestPage"));
 const peopleNewcomersPage = lazy(() => import("./pages/peopleNewcomersPage"));
 
+//authentication 
+const LoginPage = lazy(() => import("./pages/loginPage"));
+const SignUpPage = lazy(() => import("./pages/signUpPage"));
+const AuthContext = lazy(() => import("./contexts/authContext"));
 
 const App = () => {
   return (
@@ -50,6 +35,7 @@ const App = () => {
         <Suspense fallback={<h2>Loading page....</h2>}>
           <SiteHeader />      {/* New Header  */}
           <div className="container-fluid">
+          <AuthContext>
           <MoviesContextProvider>
             <GenresContextProvider>
             <PeopleContextProvider>
@@ -65,12 +51,15 @@ const App = () => {
                 <Route path="/reviews/:id" component={MovieReviewPage} />
                 <Route path="/movies/:id" component={MoviePage} />
                 <Route path="/person/:id" component={PersonPage} />
+                <Route path="/login" component={LoginPage} />
+                <Route path="/signup" component={SignUpPage} />
                 <Route path="/" component={HomePage} />
                 <Redirect from="*" to="/" />
               </Switch>
               </PeopleContextProvider>
             </GenresContextProvider>
           </MoviesContextProvider>
+        </AuthContext>
       </div>
       </Suspense>
     </div>
